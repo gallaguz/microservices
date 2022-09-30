@@ -1,18 +1,40 @@
 {
-  "extends": ["../../.eslintrc.json"],
-  "ignorePatterns": ["!**/*"],
-  "overrides": [
-    {
-      "files": ["*.ts", "*.tsx", "*.js", "*.jsx"],
-      "rules": {}
+    "extends": [
+        "../../.eslintrc.json"
+    ],
+    "ignorePatterns": [
+        "!**/*"
+    ],
+    "settings": {
+        "import/resolver": {
+            "typescript": {
+                "project": "./tsconfig.app.json"
+            }
+        }
     },
-    {
-      "files": ["*.ts", "*.tsx"],
-      "rules": {}
-    },
-    {
-      "files": ["*.js", "*.jsx"],
-      "rules": {}
-    }
-  ]
+    "overrides": [
+        {
+            "files": [
+                "*.ts",
+                "*.tsx",
+                "*.js",
+                "*.jsx"
+            ],
+            "rules": {}
+        },
+        {
+            "files": [
+                "*.ts",
+                "*.tsx"
+            ],
+            "rules": {}
+        },
+        {
+            "files": [
+                "*.js",
+                "*.jsx"
+            ],
+            "rules": {}
+        }
+    ]
 }

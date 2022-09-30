@@ -3,6 +3,13 @@
     "ignorePatterns": [
         "**/*"
     ],
+    "settings": {
+        "import/resolver": {
+            "typescript": {
+                "project": "./tsconfig.base.json"
+            }
+        }
+    },
     "plugins": [
         "@nrwl/nx",
         "prettier",
@@ -29,45 +36,36 @@
                     {
                         "groups": [
                             "builtin",
-                            // Built-in imports (come from NodeJS native) go first
                             "external",
-                            // <- External imports
                             "internal",
-                            // <- Absolute imports
                             [
                                 "sibling",
                                 "parent"
                             ],
-                            // <- Relative imports, the sibling and parent types they can be mingled together
                             "index",
-                            // <- index imports
                             "unknown"
-                            // <- unknown
                         ],
                         "newlines-between": "always",
                         "alphabetize": {
-                            /* sort in ascending order. Options: ["ignore", "asc", "desc"] */
                             "order": "asc",
-                            /* ignore case. Options: [true, false] */
                             "caseInsensitive": true
                         }
                     }
                 ],
-                "@typescript-eslint/no-namespace": 0,
-                "@typescript-eslint/no-empty-interface": 0,
-                // turn on errors for missing imports
-                "import/no-unresolved": "error",
-                // 'import/no-named-as-default-member': 'off',
-                "@typescript-eslint/ban-types": "off",
-                "@typescript-eslint/no-unused-vars": [
-                    "off"
-                ],
-                "@typescript-eslint/no-var-requires": 0,
-                "@typescript-eslint/no-explicit-any": "off",
-                // "@typescript-eslint/no-inferrable-types": "off",
-                // "@typescript-eslint/no-inferrable-types": "error",
-                "@typescript-eslint/explicit-function-return-type": [
-                    "error"
+                "@nrwl/nx/enforce-module-boundaries": [
+                    "error",
+                    {
+                        "enforceBuildableLibDependency": true,
+                        "allow": [],
+                        "depConstraints": [
+                            {
+                                "sourceTag": "*",
+                                "onlyDependOnLibsWithTags": [
+                                    "*"
+                                ]
+                            }
+                        ]
+                    }
                 ],
                 "prettier/prettier": [
                     "error",
@@ -98,21 +96,6 @@
                         "bracketSpacing": true,
                         "endOfLine": "lf"
                     }
-                ],
-                "@nrwl/nx/enforce-module-boundaries": [
-                    "error",
-                    {
-                        "enforceBuildableLibDependency": true,
-                        "allow": [],
-                        "depConstraints": [
-                            {
-                                "sourceTag": "*",
-                                "onlyDependOnLibsWithTags": [
-                                    "*"
-                                ]
-                            }
-                        ]
-                    }
                 ]
             }
         },
@@ -122,10 +105,19 @@
                 "*.tsx"
             ],
             "extends": [
-                "eslint:recommended",
                 "plugin:@nrwl/nx/typescript"
             ],
             "rules": {
+                "@typescript-eslint/no-namespace": 0,
+                "@typescript-eslint/no-empty-interface": 0,
+                "import/no-unresolved": "error",
+                "@typescript-eslint/ban-types": "off",
+                "@typescript-eslint/no-unused-vars": "off",
+                "@typescript-eslint/no-var-requires": 0,
+                "@typescript-eslint/no-explicit-any": "off",
+                "@typescript-eslint/explicit-function-return-type": "error"
+                // "@typescript-eslint/no-inferrable-types": "off",
+                // "@typescript-eslint/no-inferrable-types": "error",
             }
         },
         {
