@@ -1,42 +1,154 @@
 {
-  "root": true,
-  "ignorePatterns": ["**/*"],
-  "plugins": ["@nrwl/nx"],
-  "overrides": [
-    {
-      "files": ["*.ts", "*.tsx", "*.js", "*.jsx"],
-      "rules": {
-        "@nrwl/nx/enforce-module-boundaries": [
-          "error",
-          {
-            "enforceBuildableLibDependency": true,
-            "allow": [],
-            "depConstraints": [
-              {
-                "sourceTag": "*",
-                "onlyDependOnLibsWithTags": ["*"]
-              }
-            ]
-          }
-        ]
-      }
-    },
-    {
-      "files": ["*.ts", "*.tsx"],
-      "extends": ["plugin:@nrwl/nx/typescript"],
-      "rules": {}
-    },
-    {
-      "files": ["*.js", "*.jsx"],
-      "extends": ["plugin:@nrwl/nx/javascript"],
-      "rules": {}
-    },
-    {
-      "files": ["*.spec.ts", "*.spec.tsx", "*.spec.js", "*.spec.jsx"],
-      "env": {
-        "jest": true
-      },
-      "rules": {}
-    }
-  ]
+    "root": true,
+    "ignorePatterns": [
+        "**/*"
+    ],
+    "plugins": [
+        "@nrwl/nx",
+        "prettier",
+        "@typescript-eslint"
+    ],
+    "extends": [
+        "eslint:recommended",
+        "plugin:@typescript-eslint/recommended",
+        "prettier",
+        "plugin:import/recommended",
+        "plugin:import/typescript"
+    ],
+    "overrides": [
+        {
+            "files": [
+                "*.ts",
+                "*.tsx",
+                "*.js",
+                "*.jsx"
+            ],
+            "rules": {
+                "import/order": [
+                    "error",
+                    {
+                        "groups": [
+                            "builtin",
+                            // Built-in imports (come from NodeJS native) go first
+                            "external",
+                            // <- External imports
+                            "internal",
+                            // <- Absolute imports
+                            [
+                                "sibling",
+                                "parent"
+                            ],
+                            // <- Relative imports, the sibling and parent types they can be mingled together
+                            "index",
+                            // <- index imports
+                            "unknown"
+                            // <- unknown
+                        ],
+                        "newlines-between": "always",
+                        "alphabetize": {
+                            /* sort in ascending order. Options: ["ignore", "asc", "desc"] */
+                            "order": "asc",
+                            /* ignore case. Options: [true, false] */
+                            "caseInsensitive": true
+                        }
+                    }
+                ],
+                "@typescript-eslint/no-namespace": 0,
+                "@typescript-eslint/no-empty-interface": 0,
+                // turn on errors for missing imports
+                "import/no-unresolved": "error",
+                // 'import/no-named-as-default-member': 'off',
+                "@typescript-eslint/ban-types": "off",
+                "@typescript-eslint/no-unused-vars": [
+                    "off"
+                ],
+                "@typescript-eslint/no-var-requires": 0,
+                "@typescript-eslint/no-explicit-any": "off",
+                // "@typescript-eslint/no-inferrable-types": "off",
+                // "@typescript-eslint/no-inferrable-types": "error",
+                "@typescript-eslint/explicit-function-return-type": [
+                    "error"
+                ],
+                "prettier/prettier": [
+                    "error",
+                    {
+                        "max-len": [
+                            "error",
+                            {
+                                "code": 80,
+                                "ignoreTrailingComments": true,
+                                "ignoreComments": true,
+                                "ignoreUrls": true,
+                                "ignoreStrings": true,
+                                "ignoreTemplateLiterals": true,
+                                "ignoreRegExpLiterals": true
+                            }
+                        ],
+                        "linebreak-style": [
+                            "error",
+                            "unix"
+                        ],
+                        "printWidth": 80,
+                        "trailingComma": "all",
+                        "semi": true,
+                        "jsxSingleQuote": true,
+                        "singleQuote": true,
+                        "useTabs": false,
+                        "tabWidth": 4,
+                        "bracketSpacing": true,
+                        "endOfLine": "lf"
+                    }
+                ],
+                "@nrwl/nx/enforce-module-boundaries": [
+                    "error",
+                    {
+                        "enforceBuildableLibDependency": true,
+                        "allow": [],
+                        "depConstraints": [
+                            {
+                                "sourceTag": "*",
+                                "onlyDependOnLibsWithTags": [
+                                    "*"
+                                ]
+                            }
+                        ]
+                    }
+                ]
+            }
+        },
+        {
+            "files": [
+                "*.ts",
+                "*.tsx"
+            ],
+            "extends": [
+                "eslint:recommended",
+                "plugin:@nrwl/nx/typescript"
+            ],
+            "rules": {
+            }
+        },
+        {
+            "files": [
+                "*.js",
+                "*.jsx"
+            ],
+            "extends": [
+                "plugin:@nrwl/nx/javascript"
+            ],
+            "rules": {}
+        },
+        {
+            "files": [
+                "*.spec.ts",
+                "*.spec.tsx",
+                "*.spec.js",
+                "*.spec.jsx"
+            ],
+            "env": {
+                "jest": true
+            },
+            "rules": {}
+        }
+    ]
 }
